@@ -30,7 +30,7 @@
         }
 
         button {
-            background-color: #e74c3c;
+            background-color: #969696;
             color: #fff;
             font-size: 1.2em;
             padding: 12px 20px;
@@ -72,13 +72,16 @@
 <body>
     <h1 id="message">Please Wait</h1>
     <button id="copyButton" onclick="copyToClipboard()">Copy Key</button>
+    <button id="copyDiscordButton" onclick="copyDiscordToClipboard()">Copy Discord Server Link</button>
 
     <script>
         // JavaScript code
         var messageElement = document.getElementById("message");
         var copyButton = document.getElementById("copyButton");
+        var copyDiscordButton = document.getElementById("copyDiscordButton");
 
         var key = "A82abOG5Bh9ectZTindvCsw7F";  // Replace with the actual key
+        var discordlink = "https://discord.gg/zxNwa2bTRa"
 
         messageElement.textContent = key;
 
@@ -91,6 +94,21 @@
             document.execCommand("copy");
             document.body.removeChild(textarea);
             alert("Key copied to clipboard!");
+        }
+
+        function copyDiscordToClipboard() {
+            var textarea = document.createElement("textarea");
+            textarea.value = discordlink;
+            document.body.appendChild(textarea);
+            textarea.select();
+            document.execCommand("copy");
+            document.body.removeChild(textarea);
+            alert("Press OK To Continue");
+            openNewTab()
+        }
+
+        function openNewTab() {
+            window.open(discordlink, '_self'); // Replace with the URL you want to open
         }
 
         // Function to toggle the visibility of the "Copy Key" button
