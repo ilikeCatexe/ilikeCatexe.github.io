@@ -1,20 +1,25 @@
 _G.notusekeys = {
-    "kZRMdWV8br72FsNwAmjPvIaJ1",
-	"crL4U8fboT31meVZWwugOjM0H",
-	"A82abOG5Bh9ectZTindvCsw7F",
-	"8sYfugrRiL0C2jQ1XkEKcUnDF",
-	"AP9Gy3hQDIsfUuV45BJKFEbmg",
-	--"KFdTMwSzaNnmAh6upgfc7QiJL",
+    --"Y9ZKdp3BihR0QoLvnPWcOMbae",
+	--"YRn79qLQIEtrNcp1f0jS4mxdA",
+	--"2cKH8sIZQSW5djkEbf1ChoGV0",
+	--"wpRrujcqU2gMByYmOs4bvCS73",
+	--"95uhf7vAOcBxDj4TGRFwNrlMS",
+	--"wkL6WPtvyfzmB8NK1qQIZUoVa",
 }
 _G.keys = {
-	--"kZRMdWV8br72FsNwAmjPvIaJ1",
-	--"crL4U8fboT31meVZWwugOjM0H",
-	--"A82abOG5Bh9ectZTindvCsw7F",
-	--"8sYfugrRiL0C2jQ1XkEKcUnDF",
-	--"AP9Gy3hQDIsfUuV45BJKFEbmg",
-	"KFdTMwSzaNnmAh6upgfc7QiJL",
+	"Y9ZKdp3BihR0QoLvnPWcOMbae",
+	--"YRn79qLQIEtrNcp1f0jS4mxdA",
+	--"2cKH8sIZQSW5djkEbf1ChoGV0",
+	--"wpRrujcqU2gMByYmOs4bvCS73",
+	--"95uhf7vAOcBxDj4TGRFwNrlMS",
+	--"wkL6WPtvyfzmB8NK1qQIZUoVa",
     --"GiveFreeKey30Days",
 }
 _G.Premiumkeys = {
 	"IHATEI"
 }
+
+
+
+
+
