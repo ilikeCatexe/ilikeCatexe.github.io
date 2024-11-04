@@ -7,5 +7,5 @@ _G.PHBlacklistIp = {
     "175.176.53.86", -- bypass key : ID 2
 }
 _G.PHWhitelist = {
-    "",
+    "BF28571C-E05A-43D1-AE4A-48470E5593B7",
 }
