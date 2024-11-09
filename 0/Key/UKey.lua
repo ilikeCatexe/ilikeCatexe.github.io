@@ -19,7 +19,3 @@ _G.Premiumkeys = {
 	"IHATEI"
 }
 
-
-
-
-
