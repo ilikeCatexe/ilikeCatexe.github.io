@@ -16,6 +16,6 @@ _G.keys = {
     --"GiveFreeKey30Days",
 }
 _G.Premiumkeys = {
-	"IHATEI"
+	"PremiumKey I guees"
 }
 
