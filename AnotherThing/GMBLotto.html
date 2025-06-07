@@ -1,0 +1,1196 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🎲 GMBLotto 🎲</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1600px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 25px 50px rgba(0,0,0,0.15);
+            overflow: hidden;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+            color: white;
+            padding: 25px 30px;
+            text-align: center;
+        }
+
+        .header h1 {
+            font-size: 32px;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+
+        .controls {
+            background: #f8f9fa;
+            padding: 25px 30px;
+            border-bottom: 2px solid #e9ecef;
+        }
+
+        .control-row {
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            gap: 20px;
+            margin-bottom: 20px;
+        }
+
+        .control-group {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .control-group label {
+            font-weight: 600;
+            color: #495057;
+            white-space: nowrap;
+        }
+
+        select, button {
+            padding: 10px 15px;
+            border: 2px solid #dee2e6;
+            border-radius: 10px;
+            background: white;
+            font-size: 14px;
+            transition: all 0.3s ease;
+        }
+
+        select:focus, button:focus {
+            outline: none;
+            border-color: #4facfe;
+            box-shadow: 0 0 0 3px rgba(79, 172, 254, 0.2);
+        }
+
+        button {
+            cursor: pointer;
+            font-weight: 600;
+            border: none;
+            color: white;
+            text-transform: none;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+        }
+
+        .btn-success {
+            background: linear-gradient(135deg, #51cf66 0%, #40c057 100%);
+        }
+
+        .btn-danger {
+            background: linear-gradient(135deg, #ff6b6b 0%, #ee5a52 100%);
+        }
+
+        .btn-info {
+            background: linear-gradient(135deg, #74c0fc 0%, #339af0 100%);
+        }
+
+        button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+
+        button:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .checkbox-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin-top: 15px;
+        }
+
+        .checkbox-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 10px;
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+
+        .checkbox-item input[type="checkbox"] {
+            width: 18px;
+            height: 18px;
+        }
+
+        .main-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 25px;
+            padding: 30px;
+            min-height: 600px;
+        }
+
+        .data-section, .analysis-section {
+            background: #f8f9fa;
+            border-radius: 15px;
+            padding: 25px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+
+        .section-title {
+            font-size: 20px;
+            font-weight: 700;
+            color: #495057;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 3px solid #4facfe;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .data-table-container {
+            background: white;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+            max-height: 400px;
+            overflow-y: auto;
+        }
+
+        .data-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .data-table th {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 15px 12px;
+            text-align: left;
+            font-weight: 600;
+            position: sticky;
+            top: 0;
+            z-index: 10;
+        }
+
+        .data-table td {
+            padding: 12px;
+            border-bottom: 1px solid #e9ecef;
+            font-size: 14px;
+        }
+
+        .data-table tr:hover {
+            background: #f1f3f4;
+        }
+
+        .data-table tr:nth-child(even) {
+            background: #f8f9fa;
+        }
+
+        .tabs {
+            display: flex;
+            margin-bottom: 20px;
+            border-bottom: 2px solid #e9ecef;
+        }
+
+        .tab {
+            padding: 12px 20px;
+            background: #e9ecef;
+            border: none;
+            cursor: pointer;
+            font-weight: 600;
+            color: #6c757d;
+            border-radius: 10px 10px 0 0;
+            margin-right: 5px;
+            transition: all 0.3s ease;
+        }
+
+        .tab.active {
+            background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+            color: white;
+            transform: translateY(-2px);
+        }
+
+        .tab-content {
+            display: none;
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            font-family: 'Courier New', monospace;
+            font-size: 12px;
+            white-space: pre-line;
+            max-height: 350px;
+            overflow-y: auto;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        .log-section {
+            margin-top: 25px;
+            background: #1a1a1a;
+            border-radius: 10px;
+            padding: 20px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+
+        .log-title {
+            color: #00ff00;
+            font-size: 16px;
+            font-weight: 600;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .log-area {
+            background: #000;
+            color: #00ff00;
+            padding: 15px;
+            border-radius: 8px;
+            font-family: 'Courier New', monospace;
+            font-size: 11px;
+            max-height: 200px;
+            overflow-y: auto;
+            border: 1px solid #333;
+        }
+
+        .status-bar {
+            background: #343a40;
+            color: white;
+            padding: 10px 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 14px;
+        }
+
+        .status-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .status-indicator {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background: #dc3545;
+            animation: pulse 2s infinite;
+        }
+
+        .status-indicator.active {
+            background: #28a745;
+        }
+
+        @keyframes pulse {
+            0% { opacity: 1; }
+            50% { opacity: 0.5; }
+            100% { opacity: 1; }
+        }
+
+        .missing-numbers-grid {
+            display: grid;
+            grid-template-columns: repeat(10, 1fr);
+            gap: 5px;
+            margin-top: 15px;
+        }
+
+        .number-cell {
+            padding: 8px 4px;
+            text-align: center;
+            border-radius: 5px;
+            font-weight: bold;
+            font-size: 11px;
+        }
+
+        .appeared-number {
+            background: #51cf66;
+            color: white;
+        }
+
+        .missing-number {
+            background: #ff6b6b;
+            color: white;
+        }
+
+        .update-indicator {
+            display: inline-block;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+
+        @media (max-width: 1200px) {
+            .main-content {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .control-row {
+                flex-direction: column;
+                align-items: stretch;
+            }
+            
+            .checkbox-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🎲 GMBLotto 🎲</h1>
+            <p>วิเคราะห์แนวโน้มและความน่าจะเป็น พร้อมอัปเดตข้อมูลแบบ Real-time
+                <br> <b>By Golf MORRIGAN</b>
+            </p>
+        </div>
+
+        <div class="controls">
+            <!-- แถวที่ 1: การเลือกช่วงเวลาและปุ่มควบคุม -->
+            <div class="control-row">
+                <div class="control-group">
+                    <label>📅 ช่วงเวลา:</label>
+                    <select id="timeRange">
+                        <option value="7">7 วันย้อนหลัง</option>
+                        <option value="14">14 วันย้อนหลัง</option>
+                        <option value="30" selected>30 วันย้อนหลัง</option>
+                        <option value="60">60 วันย้อนหลัง</option>
+                        <option value="90">90 วันย้อนหลัง</option>
+                        <option value="custom">📆 กำหนดเอง</option>
+                    </select>
+                </div>
+
+                <!-- ส่วนเลือกวันที่แบบกำหนดเอง -->
+                <div class="control-group" id="customDateRange" style="display: none;">
+                    <label>จากวันที่:</label>
+                    <input type="date" id="startDate" style="padding: 8px; border: 2px solid #dee2e6; border-radius: 8px;">
+                    <label>ถึงวันที่:</label>
+                    <input type="date" id="endDate" style="padding: 8px; border: 2px solid #dee2e6; border-radius: 8px;">
+                </div>
+
+                <button id="manualUpdate" class="btn-info">
+                    <span id="updateIcon">🔄</span> อัปเดตทันที
+                </button>
+
+                <button id="startAutoUpdate" class="btn-success">
+                    ▶️ เริ่มอัปเดตอัตโนมัติ
+                </button>
+
+                <button id="stopAutoUpdate" class="btn-danger" disabled>
+                    ⏹️ หยุดอัปเดตอัตโนมัติ
+                </button>
+
+                <button id="clearData" class="btn-primary">
+                    🗑️ ล้างข้อมูล
+                </button>
+            </div>
+
+            <!-- แถวที่ 2: การเลือกหมวดหมู่ -->
+            <div class="control-row">
+                <label style="font-size: 16px; font-weight: 700;">🎯 เลือกหมวดหมู่หวย:</label>
+            </div>
+            
+            <div class="checkbox-grid" id="categoryCheckboxes">
+                <!-- จะถูกสร้างโดย JavaScript -->
+            </div>
+        </div>
+
+        <div class="main-content">
+            <!-- ส่วนซ้าย: ข้อมูลหวย -->
+            <div class="data-section">
+                <h3 class="section-title">
+                    📊 ข้อมูลหวยล่าสุด
+                    <span id="dataCount" style="font-size: 14px; color: #6c757d;">(0 รายการ)</span>
+                </h3>
+                
+                <div class="data-table-container">
+                    <table class="data-table" id="dataTable">
+                        <thead>
+                            <tr>
+                                <th>วันที่</th>
+                                <th>หมวดหมู่</th>
+                                <th>ผลรางวัล</th>
+                                <th>เวลาอัปเดต</th>
+                            </tr>
+                        </thead>
+                        <tbody id="dataTableBody">
+                        </tbody>
+                    </table>
+                </div>
+
+                <!-- ส่วน Log -->
+                <div class="log-section">
+                    <div class="log-title">
+                        🖥️ บันทึกการทำงาน
+                        <button onclick="clearLog()" style="background: #dc3545; color: white; border: none; padding: 5px 10px; border-radius: 5px; font-size: 10px;">ล้าง Log</button>
+                    </div>
+                    <div class="log-area" id="logArea"></div>
+                </div>
+            </div>
+
+            <!-- ส่วนขวา: การวิเคราะห์ -->
+            <div class="analysis-section">
+                <h3 class="section-title">📈 การวิเคราะห์สถิติ</h3>
+                
+                <div class="tabs">
+                    <button class="tab active" onclick="showTab('stats')">📊 สถิติความถี่</button>
+                    <button class="tab" onclick="showTab('missing')">🔍 ตัวเลขที่ไม่เคยออก</button>
+                    <button class="tab" onclick="showTab('probability')">🎯 ความน่าจะเป็น</button>
+                </div>
+
+                <div id="stats" class="tab-content active">
+                    <div id="statisticsContent"></div>
+                </div>
+
+                <div id="missing" class="tab-content">
+                    <div id="missingContent"></div>
+                </div>
+
+                <div id="probability" class="tab-content">
+                    <div id="probabilityContent"></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- แถบสถานะ -->
+        <div class="status-bar">
+            <div class="status-item">
+                <div class="status-indicator" id="autoUpdateIndicator"></div>
+                <span id="autoUpdateStatus">อัปเดตอัตโนมัติ: ปิด</span>
+            </div>
+            <div class="status-item">
+                <span id="lastUpdateTime">อัปเดตล่าสุด: -</span>
+            </div>
+            <div class="status-item">
+                <span id="nextUpdateTime">อัปเดตถัดไป: -</span>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // ตัวแปรสำหรับเก็บข้อมูล
+        let lotteryData = [];
+        let autoUpdateInterval = null;
+        let isAutoUpdateRunning = false;
+
+        // หมวดหมู่หวยที่รองรับ
+        const categories = [
+            "หวยรัฐบาล", "หวยลาว", "หวยฮานอย", "หวยฮานอยพิเศษ", 
+            "หวยฮานอยVIP", "หวยมาเลย์", "หวยหุ้นไทย", "หวยหุ้นต่างประเทศ"
+        ];
+
+        // API URLs (ตัวอย่าง - ในการใช้งานจริงใช้ API จริง)
+        const apiUrls = {
+            "หวยรัฐบาล": "https://www.lottery.co.th/api/lottery",
+            "หวยลาว": "https://api.example.com/laos-lottery",
+            "หวยฮานอย": "https://api.example.com/hanoi-lottery",
+            "หวยฮานอยพิเศษ": "https://api.example.com/hanoi-special",
+            "หวยฮานอยVIP": "https://api.example.com/hanoi-vip",
+            "หวยมาเลย์": "https://api.example.com/malaysia-lottery",
+            "หวยหุ้นไทย": "https://api.example.com/thai-stock-lottery",
+            "หวยหุ้นต่างประเทศ": "https://api.example.com/international-stock-lottery"
+        };
+
+        // เริ่มต้นเมื่อโหลดหน้า
+        document.addEventListener('DOMContentLoaded', function() {
+            initializeApp();
+        });
+
+        function initializeApp() {
+            createCategoryCheckboxes();
+            generateSampleData();
+            setupEventListeners();
+            updateAnalysis();
+            logMessage("🚀 เว็บแอปเริ่มต้นเรียบร้อย");
+        }
+
+        function createCategoryCheckboxes() {
+            const container = document.getElementById('categoryCheckboxes');
+            container.innerHTML = '';
+
+            categories.forEach((category, index) => {
+                const div = document.createElement('div');
+                div.className = 'checkbox-item';
+                
+                div.innerHTML = `
+                    <input type="checkbox" id="cat${index}" checked onchange="updateAnalysis()">
+                    <label for="cat${index}">${category}</label>
+                `;
+                
+                container.appendChild(div);
+            });
+        }
+
+        function setupEventListeners() {
+            document.getElementById('timeRange').addEventListener('change', function() {
+                toggleCustomDateRange();
+                updateAnalysis();
+            });
+            document.getElementById('startDate').addEventListener('change', updateAnalysis);
+            document.getElementById('endDate').addEventListener('change', updateAnalysis);
+            document.getElementById('manualUpdate').addEventListener('click', manualUpdate);
+            document.getElementById('startAutoUpdate').addEventListener('click', startAutoUpdate);
+            document.getElementById('stopAutoUpdate').addEventListener('click', stopAutoUpdate);
+            document.getElementById('clearData').addEventListener('click', clearAllData);
+        }
+
+        // สร้างข้อมูลตัวอย่าง
+        function generateSampleData() {
+            lotteryData = [];
+            const today = new Date();
+
+            for (let day = 30; day >= 1; day--) {
+                const date = new Date(today);
+                date.setDate(date.getDate() - day);
+
+                categories.forEach(category => {
+                    const result = generateRandomResult(category);
+                    const updateTime = new Date(date);
+                    updateTime.setHours(Math.floor(Math.random() * 24), Math.floor(Math.random() * 60));
+
+                    lotteryData.push({
+                        date: date,
+                        category: category,
+                        result: result,
+                        updateTime: updateTime
+                    });
+                });
+            }
+        }
+
+        function generateRandomResult(category) {
+            const random = Math.random();
+            switch (category) {
+                case "หวยรัฐบาล":
+                    return String(Math.floor(Math.random() * 1000000)).padStart(6, '0');
+                case "หวยลาว":
+                case "หวยฮานอย":
+                case "หวยฮานอยพิเศษ":
+                case "หวยฮานอยVIP":
+                case "หวยมาเลย์":
+                    return String(Math.floor(Math.random() * 10000)).padStart(4, '0');
+                case "หวยหุ้นไทย":
+                case "หวยหุ้นต่างประเทศ":
+                    return String(Math.floor(Math.random() * 100)).padStart(2, '0');
+                default:
+                    return String(Math.floor(Math.random() * 100)).padStart(2, '0');
+            }
+        }
+
+        // ฟังก์ชันดึงข้อมูลจาก API (จำลอง)
+        async function fetchLotteryData(category) {
+            try {
+                logMessage(`🔍 กำลังดึงข้อมูล ${category}...`);
+                
+                // จำลองการเรียก API
+                await new Promise(resolve => setTimeout(resolve, 1000 + Math.random() * 2000));
+                
+                // สร้างข้อมูลจำลอง
+                const newData = {
+                    date: new Date(),
+                    category: category,
+                    result: generateRandomResult(category),
+                    updateTime: new Date()
+                };
+
+                // เพิ่มข้อมูลใหม่
+                lotteryData.push(newData);
+                
+                logMessage(`✅ ดึงข้อมูล ${category} สำเร็จ: ${newData.result}`);
+                
+                return newData;
+            } catch (error) {
+                logMessage(`❌ ข้อผิดพลาดในการดึงข้อมูล ${category}: ${error.message}`);
+                return null;
+            }
+        }
+
+        // ฟังก์ชันอัปเดตแบบ Manual
+        async function manualUpdate() {
+            const updateIcon = document.getElementById('updateIcon');
+            const manualButton = document.getElementById('manualUpdate');
+            
+            // แสดง loading
+            updateIcon.innerHTML = '<span class="update-indicator">⟳</span>';
+            manualButton.disabled = true;
+            
+            logMessage("🚀 เริ่มอัปเดตข้อมูลแบบ Manual");
+
+            const selectedCategories = getSelectedCategories();
+            const promises = selectedCategories.map(category => fetchLotteryData(category));
+            
+            try {
+                await Promise.all(promises);
+                updateAnalysis();
+                updateLastUpdateTime();
+                logMessage("✅ อัปเดตข้อมูลทั้งหมดเสร็จสิ้น");
+            } catch (error) {
+                logMessage("❌ เกิดข้อผิดพลาดในการอัปเดต");
+            } finally {
+                // ซ่อน loading
+                updateIcon.innerHTML = '🔄';
+                manualButton.disabled = false;
+            }
+        }
+
+        // ฟังก์ชันเริ่มการอัปเดตอัตโนมัติ
+        function startAutoUpdate() {
+            if (isAutoUpdateRunning) return;
+
+            // อัปเดตครั้งแรกทันที
+            manualUpdate();
+
+            // ตั้งเวลาอัปเดตทุก 30 นาที (1800000 มิลลิวินาที)
+            autoUpdateInterval = setInterval(() => {
+                logMessage("⏰ เริ่มอัปเดตอัตโนมัติ");
+                manualUpdate();
+            }, 1800000); // 30 นาที
+
+            isAutoUpdateRunning = true;
+            document.getElementById('startAutoUpdate').disabled = true;
+            document.getElementById('stopAutoUpdate').disabled = false;
+            
+            // อัปเดต UI สถานะ
+            updateAutoUpdateStatus(true);
+            
+            logMessage("▶️ เริ่มระบบอัปเดตอัตโนมัติ (ทุก 30 นาที)");
+            updateNextUpdateTime();
+        }
+
+        // ฟังก์ชันหยุดการอัปเดตอัตโนมัติ
+        function stopAutoUpdate() {
+            if (autoUpdateInterval) {
+                clearInterval(autoUpdateInterval);
+                autoUpdateInterval = null;
+            }
+
+            isAutoUpdateRunning = false;
+            document.getElementById('startAutoUpdate').disabled = false;
+            document.getElementById('stopAutoUpdate').disabled = true;
+            
+            // อัปเดต UI สถานะ
+            updateAutoUpdateStatus(false);
+            
+            logMessage("⏹️ หยุดระบบอัปเดตอัตโนมัติ");
+        }
+
+        // ฟังก์ชันล้างข้อมูลทั้งหมด
+        function clearAllData() {
+            if (confirm("คุณต้องการล้างข้อมูลทั้งหมดหรือไม่?")) {
+                lotteryData = [];
+                updateAnalysis();
+                logMessage("🗑️ ล้างข้อมูลทั้งหมดเรียบร้อย");
+            }
+        }
+
+        // ฟังก์ชันล้าง Log
+        function clearLog() {
+            document.getElementById('logArea').innerHTML = '';
+        }
+
+        // ฟังก์ชันเขียน Log
+        function logMessage(message) {
+            const logArea = document.getElementById('logArea');
+            const timestamp = new Date().toLocaleTimeString('th-TH');
+            const logEntry = `[${timestamp}] ${message}\n`;
+            
+            logArea.innerHTML += logEntry;
+            logArea.scrollTop = logArea.scrollHeight;
+        }
+
+        // ฟังก์ชันอัปเดตสถานะการอัปเดตอัตโนมัติ
+        function updateAutoUpdateStatus(isActive) {
+            const indicator = document.getElementById('autoUpdateIndicator');
+            const status = document.getElementById('autoUpdateStatus');
+            
+            if (isActive) {
+                indicator.classList.add('active');
+                status.textContent = 'อัปเดตอัตโนมัติ: เปิด';
+            } else {
+                indicator.classList.remove('active');
+                status.textContent = 'อัปเดตอัตโนมัติ: ปิด';
+                document.getElementById('nextUpdateTime').textContent = 'อัปเดตถัดไป: -';
+            }
+        }
+
+        // ฟังก์ชันอัปเดตเวลาอัปเดตล่าสุด
+        function updateLastUpdateTime() {
+            const now = new Date();
+            document.getElementById('lastUpdateTime').textContent = 
+                `อัปเดตล่าสุด: ${now.toLocaleString('th-TH')}`;
+        }
+
+        // ฟังก์ชันอัปเดตเวลาอัปเดตถัดไป
+        function updateNextUpdateTime() {
+            if (isAutoUpdateRunning) {
+                const nextUpdate = new Date(Date.now() + 1800000); // 30 นาทีข้างหน้า
+                document.getElementById('nextUpdateTime').textContent = 
+                    `อัปเดตถัดไป: ${nextUpdate.toLocaleTimeString('th-TH')}`;
+                
+                // อัปเดตเวลาถัดไปทุกนาที
+                setTimeout(updateNextUpdateTime, 60000);
+            }
+        }
+
+        // ฟังก์ชันรับหมวดหมู่ที่เลือก
+        function getSelectedCategories() {
+            const selected = [];
+            categories.forEach((cat, index) => {
+                if (document.getElementById(`cat${index}`).checked) {
+                    selected.push(cat);
+                }
+            });
+            return selected;
+        }
+
+        // ฟังก์ชันแสดง/ซ่อน ส่วนเลือกวันที่แบบกำหนดเอง
+        function toggleCustomDateRange() {
+            const timeRange = document.getElementById('timeRange').value;
+            const customDateRange = document.getElementById('customDateRange');
+            
+            if (timeRange === 'custom') {
+                customDateRange.style.display = 'flex';
+                // ตั้งค่าวันที่เริ่มต้น
+                const today = new Date();
+                const lastWeek = new Date(today);
+                lastWeek.setDate(today.getDate() - 7);
+                
+                document.getElementById('endDate').value = today.toISOString().split('T')[0];
+                document.getElementById('startDate').value = lastWeek.toISOString().split('T')[0];
+            } else {
+                customDateRange.style.display = 'none';
+            }
+        }
+
+        // ฟังก์ชันรับช่วงวันที่จากการเลือก
+        function getDateRange() {
+            const timeRangeValue = document.getElementById('timeRange').value;
+            const today = new Date();
+            
+            if (timeRangeValue === 'custom') {
+                const startDateInput = document.getElementById('startDate').value;
+                const endDateInput = document.getElementById('endDate').value;
+                
+                if (!startDateInput || !endDateInput) {
+                    // ถ้าไม่ได้เลือกวันที่ ใช้ค่าเริ่มต้น 7 วันย้อนหลัง
+                    const cutoffDate = new Date(today);
+                    cutoffDate.setDate(today.getDate() - 7);
+                    return {
+                        startDate: cutoffDate,
+                        endDate: today,
+                        label: '7 วันย้อนหลัง (ค่าเริ่มต้น)'
+                    };
+                }
+                
+                const startDate = new Date(startDateInput);
+                const endDate = new Date(endDateInput);
+                endDate.setHours(23, 59, 59, 999); // รวมทั้งวันสุดท้าย
+                
+                return {
+                    startDate: startDate,
+                    endDate: endDate,
+                    label: `${startDate.toLocaleDateString('th-TH')} - ${endDate.toLocaleDateString('th-TH')}`
+                };
+            } else {
+                const days = parseInt(timeRangeValue);
+                const cutoffDate = new Date(today);
+                cutoffDate.setDate(today.getDate() - days);
+                
+                return {
+                    startDate: cutoffDate,
+                    endDate: today,
+                    label: `${days} วันย้อนหลัง`
+                };
+            }
+        }
+
+        // ฟังก์ชันอัปเดตตาราง
+        function updateTable() {
+            const tbody = document.getElementById('dataTableBody');
+            tbody.innerHTML = '';
+
+            const dateRange = getDateRange();
+            const selectedCategories = getSelectedCategories();
+
+            const filteredData = lotteryData
+                .filter(data => data.date >= dateRange.startDate && data.date <= dateRange.endDate && selectedCategories.includes(data.category))
+                .sort((a, b) => b.updateTime - a.updateTime)
+                .slice(0, 100); // แสดงข้อมูล 100 รายการล่าสุด
+
+            filteredData.forEach(data => {
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td>${data.date.toLocaleDateString('th-TH')}</td>
+                    <td>${data.category}</td>
+                    <td style="font-weight: bold; color: #4facfe;">${data.result}</td>
+                    <td>${data.updateTime.toLocaleTimeString('th-TH')}</td>
+                `;
+                tbody.appendChild(row);
+            });
+
+            // อัปเดตจำนวนข้อมูล
+            document.getElementById('dataCount').textContent = `(${filteredData.length} รายการ)`;
+        }
+
+        // ฟังก์ชันแยกเลข 2 ตัวหลัง
+        function getLast2Digits(result) {
+            // แปลงเป็น string และเอา 2 ตัวหลัง
+            const str = result.toString();
+            return str.slice(-2).padStart(2, '0');
+        }
+
+        // ฟังก์ชันคำนวณสถิติ
+        function calculateStatistics() {
+            const dateRange = getDateRange();
+            const selectedCategories = getSelectedCategories();
+
+            const frequency = {};
+            const originalResults = {}; // เก็บตัวอย่างเลขเต็ม
+            let totalCount = 0;
+
+            // นับความถี่เฉพาะ 2 ตัวหลัง
+            lotteryData.forEach(data => {
+                if (data.date >= dateRange.startDate && data.date <= dateRange.endDate && selectedCategories.includes(data.category)) {
+                    const fullResult = data.result;
+                    const last2Digits = getLast2Digits(fullResult);
+                    
+                    frequency[last2Digits] = (frequency[last2Digits] || 0) + 1;
+                    
+                    // เก็บตัวอย่างเลขเต็มไว้แสดง
+                    if (!originalResults[last2Digits]) {
+                        originalResults[last2Digits] = [];
+                    }
+                    if (originalResults[last2Digits].length < 3) {
+                        originalResults[last2Digits].push(fullResult);
+                    }
+                    
+                    totalCount++;
+                }
+            });
+
+            // เรียงลำดับตามความถี่
+            const sortedEntries = Object.entries(frequency)
+                .sort((a, b) => b[1] - a[1])
+                .slice(0, 60); // แสดง 60 อันดับแรก
+
+            // แสดงผล
+            let content = `สถิติความถี่ 2 ตัวหลัง (${dateRange.label})
+=======================================
+จำนวนข้อมูลทั้งหมด: ${totalCount} รายการ
+เลข 2 ตัวหลังที่เคยออก: ${Object.keys(frequency).length} เลข
+แสดงผล: อันดับที่ 1-${sortedEntries.length}
+
+ลำดับ | 2ตัวหลัง | ความถี่ | เปอร์เซ็นต์ | ตัวอย่างเลขเต็ม
+-----|----------|---------|----------|------------------
+`;
+
+            sortedEntries.forEach(([last2, count], index) => {
+                const percentage = ((count / totalCount) * 100).toFixed(1);
+                const examples = originalResults[last2].join(', ');
+                content += `${(index + 1).toString().padStart(3)} | ${last2.padStart(8)} | ${count.toString().padStart(7)} | ${percentage.padStart(8)}% | ${examples}\n`;
+            });
+
+            // เพิ่มสถิติเลข 2 ตัวหลังที่ไม่เคยออก
+            const missing2Digits = [];
+            for (let i = 0; i < 100; i++) {
+                const num = i.toString().padStart(2, '0');
+                if (!frequency[num]) {
+                    missing2Digits.push(num);
+                }
+            }
+
+            content += `\n📊 สรุปเพิ่มเติม:
+• เลข 2 ตัวหลังที่ออกบ่อยที่สุด: ${sortedEntries[0] ? sortedEntries[0][0] : '-'} (${sortedEntries[0] ? sortedEntries[0][1] : 0} ครั้ง)
+• เลข 2 ตัวหลังที่ไม่เคยออก: ${missing2Digits.length} เลข
+• ตัวอย่างที่ไม่เคยออก: ${missing2Digits.slice(0, 10).join(', ')}${missing2Digits.length > 10 ? '...' : ''}
+`;
+
+            document.getElementById('statisticsContent').textContent = content;
+        }
+
+        // ฟังก์ชันหาตัวเลขที่ไม่เคยออก (ปรับเป็น 2 ตัวหลัง)
+        function findMissingNumbers() {
+            const dateRange = getDateRange();
+            const selectedCategories = getSelectedCategories();
+
+            const appeared2Digits = new Set();
+
+            // เก็บเลข 2 ตัวหลังที่เคยออก
+            lotteryData.forEach(data => {
+                if (data.date >= dateRange.startDate && data.date <= dateRange.endDate && selectedCategories.includes(data.category)) {
+                    const last2Digits = getLast2Digits(data.result);
+                    appeared2Digits.add(last2Digits);
+                }
+            });
+
+            const content = document.getElementById('missingContent');
+            content.innerHTML = `
+                <div style="font-family: 'Segoe UI', sans-serif; font-size: 14px;">
+                    <h4>เลข 2 ตัวหลังที่ไม่เคยออก (${dateRange.label})</h4>
+                    <hr style="margin: 10px 0;">
+                    <p><strong>เลข 2 ตัวหลังที่เคยออก:</strong> ${appeared2Digits.size} เลข</p>
+                    <p><strong>เลข 2 ตัวหลังที่ไม่เคยออก:</strong> ${100 - appeared2Digits.size} เลข</p>
+                    <br>
+                    <p><strong>แสดงเลข 2 ตัวหลัง (00-99):</strong></p>
+                    <div class="missing-numbers-grid">
+            `;
+
+            // แสดงตัวเลข 00-99
+            for (let i = 0; i < 100; i++) {
+                const number = i.toString().padStart(2, '0');
+                const div = document.createElement('div');
+                div.className = 'number-cell';
+                div.textContent = number;
+                
+                if (appeared2Digits.has(number)) {
+                    div.classList.add('appeared-number');
+                    div.title = 'เคยออกแล้ว';
+                } else {
+                    div.classList.add('missing-number');
+                    div.title = 'ไม่เคยออก - มีโอกาสออก!';
+                }
+                
+                content.querySelector('.missing-numbers-grid').appendChild(div);
+            }
+
+            const note = document.createElement('p');
+            note.style.marginTop = '15px';
+            note.style.fontSize = '12px';
+            note.style.color = '#6c757d';
+            note.innerHTML = `
+                <strong>หมายเหตุ:</strong> แสดงเลข 2 ตัวหลังทั้งหมด (00-99)<br>
+                🟢 เขียว = เคยออกแล้ว | 🔴 แดง = ไม่เคยออก (น่าสนใจ!)
+            `;
+            content.appendChild(note);
+        }
+
+        // ฟังก์ชันวิเคราะห์ความน่าจะเป็น (ปรับเป็น 2 ตัวหลัง)
+        function analyzeProbability() {
+            const days = getDaysFromSelection();
+            const cutoffDate = new Date();
+            cutoffDate.setDate(cutoffDate.getDate() - days);
+            const selectedCategories = getSelectedCategories();
+
+            const frequency = {};
+            const categoryCount = {};
+            let totalDraws = 0;
+
+            // นับความถี่ 2 ตัวหลังและจำนวนแต่ละหมวดหมู่
+            lotteryData.forEach(data => {
+                if (data.date > cutoffDate && selectedCategories.includes(data.category)) {
+                    const last2Digits = getLast2Digits(data.result);
+                    frequency[last2Digits] = (frequency[last2Digits] || 0) + 1;
+                    categoryCount[data.category] = (categoryCount[data.category] || 0) + 1;
+                    totalDraws++;
+                }
+            });
+
+            // หาเลข 2 ตัวหลังที่ออกบ่อยที่สุดและน้อยที่สุด
+            let mostFrequent = '';
+            let leastFrequent = '';
+            let maxFreq = 0;
+            let minFreq = Infinity;
+
+            Object.entries(frequency).forEach(([digits, count]) => {
+                if (count > maxFreq) {
+                    maxFreq = count;
+                    mostFrequent = digits;
+                }
+                if (count < minFreq) {
+                    minFreq = count;
+                    leastFrequent = digits;
+                }
+            });
+
+            const unique2Digits = Object.keys(frequency).length;
+            const missing2Digits = 100 - unique2Digits;
+            const averageFreq = totalDraws / unique2Digits;
+
+            // หาเลขที่มีแนวโน้มออก (ไม่เคยออกหรือออกน้อย)
+            const hotNumbers = Object.entries(frequency)
+                .filter(([digits, count]) => count >= averageFreq)
+                .sort((a, b) => b[1] - a[1])
+                .slice(0, 5)
+                .map(([digits]) => digits);
+
+            const coldNumbers = [];
+            for (let i = 0; i < 100; i++) {
+                const num = i.toString().padStart(2, '0');
+                if (!frequency[num]) {
+                    coldNumbers.push(num);
+                }
+            }
+
+            let content = `การวิเคราะห์ความน่าจะเป็น (2 ตัวหลัง)
+================================
+📊 ข้อมูลสรุป:
+ช่วงเวลา: ${days} วัน
+จำนวนการออกรางวัลทั้งหมด: ${totalDraws} ครั้ง
+เลข 2 ตัวหลังที่เคยออก: ${unique2Digits} เลข
+เลข 2 ตัวหลังที่ไม่เคยออก: ${missing2Digits} เลข
+ความถี่เฉลี่ย: ${averageFreq.toFixed(2)} ครั้ง/เลข
+
+📈 สถิติตามหมวดหมู่:
+`;
+
+            Object.entries(categoryCount)
+                .sort((a, b) => b[1] - a[1])
+                .forEach(([category, count]) => {
+                    const percentage = ((count / totalDraws) * 100).toFixed(1);
+                    content += `• ${category}: ${count} ครั้ง (${percentage}%)\n`;
+                });
+
+            content += `
+🎯 การวิเคราะห์ 2 ตัวหลัง:
+• เลขที่ออกบ่อยที่สุด: ${mostFrequent} (${maxFreq} ครั้ง)
+• เลขที่ออกน้อยที่สุด: ${leastFrequent} (${minFreq} ครั้ง)
+• ความแตกต่างความถี่: ${maxFreq - minFreq} ครั้ง
+
+🔥 เลขร้อน (ออกบ่อย): ${hotNumbers.join(', ')}
+❄️ เลขเย็น (ไม่เคยออก): ${coldNumbers.slice(0, 10).join(', ')}${coldNumbers.length > 10 ? '...' : ''}
+
+💡 คำแนะนำเชิงสถิติ:
+• เ🎲 GMBLotto 🎲 เลข) มีโอกาสออกสูงกว่าเฉลี่ย
+• เลขร้อนอาจมีแนวโน้มออกต่อเนื่อง
+• พิจารณาเลขที่ออกน้อยกว่าเฉลี่ย (< ${averageFreq.toFixed(1)} ครั้ง)
+• ใช้ข้อมูลสถิติประกอบการตัดสินใจเท่านั้น
+
+📊 ความน่าจะเป็นทางทฤษฎี:
+• เลขแต่ละตัว: 1% (1/100)
+• เลขที่ไม่เคยออก: โอกาสสูงกว่าปกติ
+• เลขที่ออกบ่อย: อาจมีรอบการออก
+
+⏰ ข้อมูลล่าสุดอัปเดต: ${new Date().toLocaleString('th-TH')}
+`;
+
+            document.getElementById('probabilityContent').textContent = content;
+        }
+
+        // ฟังก์ชันอัปเดตการวิเคราะห์ทั้งหมด
+        function updateAnalysis() {
+            updateTable();
+            calculateStatistics();
+            findMissingNumbers();
+            analyzeProbability();
+        }
+
+        // ฟังก์ชันแสดงแท็บ
+        function showTab(tabName) {
+            // ซ่อนแท็บทั้งหมด
+            document.querySelectorAll('.tab-content').forEach(content => {
+                content.classList.remove('active');
+            });
+            document.querySelectorAll('.tab').forEach(tab => {
+                tab.classList.remove('active');
+            });
+
+            // แสดงแท็บที่เลือก
+            document.getElementById(tabName).classList.add('active');
+            event.target.classList.add('active');
+        }
+
+        // ฟังก์ชันสำหรับ API จริง (ตัวอย่าง)
+        async function callRealAPI(category) {
+            try {
+                const apiUrl = apiUrls[category];
+                if (!apiUrl) {
+                    throw new Error(`ไม่พบ API สำหรับ ${category}`);
+                }
+
+                // เรียก API จริง
+                const response = await fetch(apiUrl, {
+                    method: 'GET',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'User-Agent': 'LotteryAnalyzer/1.0'
+                    }
+                });
+
+                if (!response.ok) {
+                    throw new Error(`HTTP Error: ${response.status}`);
+                }
+
+                const data = await response.json();
+                
+                // แปลงข้อมูลตามรูปแบบของแต่ละ API
+                return parseAPIResponse(data, category);
+                
+            } catch (error) {
+                console.error(`Error calling API for ${category}:`, error);
+                throw error;
+            }
+        }
+
+        // ฟังก์ชันแปลง API Response
+        function parseAPIResponse(data, category) {
+            // ตัวอย่างการแปลงข้อมูล - ปรับตามรูปแบบ API จริง
+            try {
+                let result = '';
+                let date = new Date();
+
+                // แปลงตามประเภทหวย
+                switch (category) {
+                    case "หวยรัฐบาล":
+                        result = data.first_prize || data.result || '000000';
+                        break;
+                    case "หวยลาว":
+                        result = data.laos_result || data.number || '0000';
+                        break;
+                    case "หวยฮานอย":
+                        result = data.hanoi_result || data.number || '0000';
+                        break;
+                    default:
+                        result = data.result || data.number || '0000';
+                }
+
+                if (data.date) {
+                    date = new Date(data.date);
+                }
+
+                return {
+                    date: date,
+                    category: category,
+                    result: result,
+                    updateTime: new Date()
+                };
+                
+            } catch (error) {
+                logMessage(`❌ ข้อผิดพลาดในการแปลงข้อมูล ${category}: ${error.message}`);
+                return null;
+            }
+        }
+
+        // Auto-start ข้อมูลตัวอย่างเมื่อโหลดเสร็จ
+        setTimeout(() => {
+            logMessage("📊 โหลดข้อมูลตัวอย่างเสร็จสิ้น");
+            logMessage("💡 เคล็ดลับ: กดปุ่ม 'เริ่มอัปเดตอัตโนมัติ' เพื่อดึงข้อมูลใหม่ทุก 30 นาที");
+        }, 1000);
+    </script>
+</body>
+</html>
