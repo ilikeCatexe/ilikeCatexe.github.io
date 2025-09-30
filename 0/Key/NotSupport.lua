@@ -27,6 +27,7 @@ _G.PHmapid = {
     2076502090, -- 26
     9733390246, -- 27
     17602539741, -- 28
+    87188889493383, -- 29
 }
 
 _G.PHmapname = {
@@ -58,9 +59,10 @@ _G.PHmapname = {
     "Anime tycoon", -- 26
     "Stair Tappers", -- 27
     "Planet Forge", -- 28
+    "Blox Loot", -- 29
 }
 _G.PHmapstats = {
-    "work", -- 1
+    "not update", -- 1
     "not work", -- 2
     "not update", -- 3
     "not update", -- 4
@@ -69,7 +71,7 @@ _G.PHmapstats = {
     "risk", -- 7
     "work", -- 8
     "risk", -- 9
-    "work", -- 10
+    "not update", -- 10
     "work", -- 11
     "risk", -- 12
     "not update", -- 13
@@ -78,14 +80,15 @@ _G.PHmapstats = {
     "work", -- 16
     "not update", -- 17
     "work", -- 18
-    "work", -- 19
+    "not update", -- 19
     "work", -- 20
     "not update", -- 21
     "not update", -- 22
-    "work", -- 23
-    "work", -- 24
+    "not update", -- 23
+    "risk", -- 24
     "not update", -- 25
     "not update", -- 26
     "not work", -- 27
-    "work", -- 28
+    "not update", -- 28
+    "work", -- 29
 }
