@@ -1,121 +1,190 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>PlangHub's Key</title>
-    <style>
-        body {
-            font-family: 'Arial', sans-serif;
-            margin: 0;
-            padding: 0;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            flex-direction: column;
-            height: 100vh;
-            background: linear-gradient(to right, rgb(255, 255, 255), rgb(0, 0, 0));
-        }
+<html>
+	<head>
+		<meta charset="utf-8" />
+		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+		<title>PlangHub | Get Key</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1" />
 
-        h1, button {
-            animation: fadeIn 2s ease-in-out;
-        }
+		<link rel="preconnect" href="https://fonts.googleapis.com" />
+		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+		<link
+			href="https://fonts.googleapis.com/css2?family=Prompt:wght@100;200;300;400;500;600;700;800;900&display=swap"
+			rel="stylesheet"
+		/>
+		<link rel="shortcut icon" href="data:image/png;base64, " type="image/png" />
+		<script src="https://cdn.tailwindcss.com"></script>
+		<script>
+			tailwind.config = {
+				theme: {
+					fontFamily: {
+						sans: ['Prompt', 'sans-serif'],
+					},
+				},
+			}
+		</script>
+		<style type="text/tailwindcss">
+			@layer components {
+				::-webkit-scrollbar {
+					display: none;
+				}
+			}
 
-        h1 {
-            color: #fff;
-            text-align: center;
-            font-size: 3em;
-            margin: 0;
-            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
-        }
+			@layer utilities {
+				@keyframes heartbeat {
+					0% {
+						transform: scale(1);
+					}
+					50% {
+						transform: scale(1.05);
+					}
+					100% {
+						transform: scale(1);
+					}
+				}
+			}
+		</style>
+	</head>
 
-        button {
-            background-color: #969696;
-            color: #fff;
-            font-size: 1.2em;
-            padding: 12px 20px;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            transition: background 0.3s ease-in-out;
-            margin-top: 20px;
-        }
+	<body
+		class="bg-[url('https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQtGI8ZVr1OjuVLZADctDgIxNPrJTXItsdkIw&s')] bg-no-repeat bg-cover bg-center bg-fixed text-violet-50"
+	>
+		<section class="w-full h-screen backdrop-blur-sm bg-black/30">
+			<div id="tsparticles"></div>
+			<div class="flex flex-col h-screen justify-center items-center p-5">
+				
+				<div
+					class="bg-violet-900/70 rounded-lg w-[95%] sm:w-[500px] max-h-[95%] p-5 shadow-lg shadow-violet-900/50 border-2 border-violet-900 overflow-y-auto"
+				>
+					<h1 id="title" class="inline text-[#a89ac4]"></h1>
+					<div class="hidden" data-hidden>
+						<div class="grid grid-cols-2 gap-2 mt-3">
+							<button
+								id="copy-button"
+								type="button"
+								class="col-span-2 text-center text-lg w-full p-1.5 rounded-md bg-violet-500 select-none active:scale-95 transition-transform"
+							>
+								PlangHub Key:
+								<p class="text-xs">******************</p>
+							</button>
+							</button>
+                            <a
+                                class="text-center text-lg w-full p-1.5 rounded-md bg-[#5662f6] select-none active:scale-95 transition-transform block"
+                                href="https://discord.gg/zxNwa2bTRa"
+                                target="_blank"
+                                rel="noreferrer"
+                                >Discord
+                            </a>
+							<button
+							    id="copy-button2"	
+                                type="button"
+                                class="text-center text-lg w-full p-1.5 rounded-md bg-[#2374e1] select-none active:scale-95 transition-transform"
+								>Copy Key
+                            </button>
+						</div>
+					</div>
+				</div>
+			</div>
+		</section>
 
-        button:hover {
-            background: linear-gradient(to right, #c0392b, #e74c3c);
-        }
+		
 
-        /* Subtle pattern overlay */
-        body::before {
-            content: "";
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/wcAAwAB/6FCTAAAAE8SURBVDhPY/hPpAgD7kxAKHgAD0OAIBINgE9gMqF+AA7QAMDeGv+9pAAAAAElFTkSuQmCC') repeat;
-            z-index: -1;
-            opacity: 0.2;
-        }
+		<script src="https://cdn.jsdelivr.net/npm/jquery@3.6.1"></script>
+		<script src="https://cdn.jsdelivr.net/npm/typed.js@2.0.12"></script>
+		<script src="https://cdn.jsdelivr.net/npm/tsparticles@2.5.3/tsparticles.bundle.min.js"></script>
+		<script>
+            var Key = "95uhf7vAOcBxDj4TGRFwNrlMS"
+            var CopyWarning = "Copy Done!"
 
-        /* Add some animation */
-        @keyframes fadeIn {
-            from {
-                opacity: 0;
-            }
-            to {
-                opacity: 1;
-            }
-        }
-    </style>
-</head>
-<body>
-    <h1 id="message">Please Wait</h1>
-    <button id="copyButton" onclick="copyToClipboard()">Copy Key</button>
-    <button id="copyDiscordButton" onclick="copyDiscordToClipboard()">Copy Discord Server Link</button>
+			$('#copy-button').on('click', async event => {
+				event.preventDefault()
+				const textElement = $(event.target).find('p')
 
-    <script>
-        // JavaScript code
-        var messageElement = document.getElementById("message");
-        var copyButton = document.getElementById("copyButton");
-        var copyDiscordButton = document.getElementById("copyDiscordButton");
+				if (textElement.text() !== CopyWarning) {
+					await navigator.clipboard.writeText(Key)
+					textElement.text(CopyWarning)
+					setTimeout(() => {
+						textElement.text(Key)
+					}, 1500)
+				}
+			})
+            $('#copy-button2').on('click', async event => {
+				event.preventDefault()
+				const textElement = $('#copy-button').find('p')
 
-        var key = "wpRrujcqU2gMByYmOs4bvCS73";  // Replace with the actual key
-        var discordlink = "https://discord.gg/zxNwa2bTRa"
+				if (textElement.text() !== CopyWarning) {
+					await navigator.clipboard.writeText(Key)
+					textElement.text(CopyWarning)
+					setTimeout(() => {
+						textElement.text(Key)
+					}, 1500)
+				}
+			})
 
-        messageElement.textContent = key;
+			new Typed('#title', {
+				strings: ['Welcome To <h2 class="inline text-xl text-white">Plang Hub</h2>,<br/>Happy Hacking~~'],
+				typeSpeed: 25,
+				startDelay: 1000,
+				loop: false,
+				onComplete: self => {
+					self.cursor.remove()
+					$('[data-hidden]').fadeIn('slow', function () {
+						$(this).removeAttr('class')
+						$(this).removeAttr('style')
+						$(this).removeAttr('data-hidden')
+					})
+				},
+			})
 
-        // Function to copy the key to the clipboard
-        function copyToClipboard() {
-            var textarea = document.createElement("textarea");
-            textarea.value = key;
-            document.body.appendChild(textarea);
-            textarea.select();
-            document.execCommand("copy");
-            document.body.removeChild(textarea);
-            alert("Key copied to clipboard!");
-        }
-
-        function copyDiscordToClipboard() {
-            var textarea = document.createElement("textarea");
-            textarea.value = discordlink;
-            document.body.appendChild(textarea);
-            textarea.select();
-            document.execCommand("copy");
-            document.body.removeChild(textarea);
-            alert("Press OK To Continue");
-            openNewTab()
-        }
-
-        function openNewTab() {
-            window.open(discordlink, '_self'); // Replace with the URL you want to open
-        }
-
-        // Function to toggle the visibility of the "Copy Key" button
-        function toggleCopyButton() {
-            copyButton.style.display = copyButton.style.display === 'none' ? 'block' : 'none';
-        }
-
-    </script>
-</body>
+			tsParticles.load('tsparticles', {
+				emitters: {
+					direction: 'top',
+					size: {
+						width: 100,
+						height: 0,
+					},
+					position: {
+						x: 50,
+						y: 100,
+					},
+					rate: {
+						delay: 0.2,
+						quantity: 1,
+					},
+				},
+				particles: {
+					number: {
+						value: 0,
+						density: {
+							enable: true,
+							value_area: 800,
+						},
+					},
+					color: {
+						value: '#ffffff',
+					},
+					opacity: {
+						value: 1,
+						anim: {
+							enable: true,
+							speed: 3,
+							opacity_min: 0.1,
+							sync: false,
+						},
+					},
+					size: {
+						value: 1,
+					},
+					move: {
+						enable: true,
+						speed: 5,
+						direction: 'none',
+						random: false,
+						straight: false,
+						out_mode: 'destroy',
+					},
+				},
+			})
+		</script>
+	</body>
 </html>
