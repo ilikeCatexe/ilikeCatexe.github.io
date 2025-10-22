@@ -30,22 +30,27 @@
       <div class="bg-violet-900/70 rounded-lg w-[95%] sm:w-[500px] max-h-[95%] p-5 shadow-lg shadow-violet-900/50 border-2 border-violet-900 overflow-y-auto">
         <h1 id="title" class="inline text-[#a89ac4]"></h1>
 
-        <div id="key-area" class="hidden mt-4">
-          <div class="grid grid-cols-2 gap-2 mt-3">
-            <button id="display-button" type="button" class="col-span-2 text-left text-lg w-full p-3 rounded-md bg-violet-500 select-none active:scale-95 transition-transform">
-              PlangHub Key:
-              <p id="key-text" class="text-xs break-all">******************</p>
-            </button>
-
-            <a class="text-center text-lg w-full p-1.5 rounded-md bg-[#5662f6] select-none active:scale-95 transition-transform block" href="https://discord.gg/zxNwa2bTRa" target="_blank" rel="noreferrer">Discord</a>
-
-            <button id="copy-button" type="button" class="text-center text-lg w-full p-1.5 rounded-md bg-[#2374e1] select-none active:scale-95 transition-transform">
-              Copy Key
-            </button>
+        <div class="hidden mt-4" data-hidden>
+          <div id="key-area">
+            <div class="grid grid-cols-2 gap-2 mt-3">
+              <button
+                  id="copy-button"
+                  type="button"
+                  class="col-span-2 text-center text-lg w-full p-1.5 rounded-md bg-violet-500 select-none active:scale-95 transition-transform"
+              >
+                PlangHub Key:
+                <br>
+                <span id="key-text" class="block text-xs mt-1">******************</span>
+              </button>
+              <a class="text-center text-lg w-full p-1.5 rounded-md bg-[#5662f6] select-none active:scale-95 transition-transform block" href="https://discord.gg/zxNwa2bTRa" target="_blank" rel="noreferrer">Discord</a>
+              <button id="copy-button" type="button" class="text-center text-lg w-full p-1.5 rounded-md bg-[#2374e1] select-none active:scale-95 transition-transform">
+                Copy Key
+              </button>
+            </div>
           </div>
         </div>
 
-        <p id="info" class="mt-3 text-xs text-gray-300">If you were redirected here from work.ink, the token will be read automatically.</p>
+        <p id="info" class="mt-3 text-xs text-gray-300">If you have problem with key system please try to contact support/owner in the discord server.</p>
       </div>
     </div>
   </section>
@@ -57,67 +62,66 @@
   <script>
     const CopyWarning = "Copy Done!";
 
-    // อ่าน token จาก URL query ?token=...
     const params = new URLSearchParams(window.location.search);
-    const tokenValue = params.get('token'); // เช่น "111"
+    const tokenValue = params.get('token');
 
-    // แสดง token UI
-    function showKeyUI(token) {
-      if(!token) return;
-      $('#key-text').text(token);
-      $('#key-area').show();
+  function showKeyUI(token) {
+    if(!token) return;
+    $('#key-text').text(token);
+    // Do NOT show key-area directly; let fadeIn handle it
+    try {
+      const safePath = window.location.pathname.split('/').slice(0,3).join('/') || '/';
+      history.replaceState(null, '', safePath);
+    } catch(e) {}
+  }
 
-      // ลบ token จาก URL bar
-      try {
-        const safePath = window.location.pathname.split('/').slice(0,3).join('/') || '/';
-        history.replaceState(null, '', safePath);
-      } catch(e) {}
+  new Typed('#title', {
+    strings: ['Welcome To <h2 class="inline text-xl text-white">Plang Hub</h2>,<br/>Happy Hacking~~'],
+    typeSpeed: 25,
+    startDelay: 300,
+    loop: false,
+    onComplete(self) {
+      self.cursor.remove();
+      if(tokenValue) showKeyUI(tokenValue);
+      $('[data-hidden]').fadeIn('slow', function () {
+        $(this).removeAttr('class')
+        $(this).removeAttr('style')
+        $(this).removeAttr('data-hidden')
+      })
     }
-
-    // typed title
-    new Typed('#title', {
-      strings: ['Welcome To <h2 class="inline text-xl text-white">Plang Hub</h2>,<br/>Happy Hacking~~'],
-      typeSpeed: 25,
-      startDelay: 300,
-      loop: false,
-      onComplete(self) { self.cursor.remove(); }
-    });
+  });
 
     $(function() {
-      if(tokenValue) showKeyUI(tokenValue);
-      else $('#info').text('No token detected in URL.');
+        if(!tokenValue) $('#info').text('Error 400 - Missing token parameter. Please try get key again.');
 
-      // toggle masked / full
-      $('#display-button').on('click', function(e) {
-        e.preventDefault();
-        const el = $('#key-text');
-        if(el.data('masked')) {
-          el.text(tokenValue);
-          el.data('masked', false);
-        } else {
-          const masked = tokenValue ? (tokenValue.slice(0,4) + '...' + tokenValue.slice(-4)) : '****************';
-          el.text(masked);
-          el.data('masked', true);
-        }
-      });
+        $('#display-button').on('click', function(e) {
+            e.preventDefault();
+            const el = $('#key-text');
+            if(el.data('masked')) {
+            el.text(tokenValue);
+            el.data('masked', false);
+            } else {
+            const masked = tokenValue ? (tokenValue.slice(0,4) + '...' + tokenValue.slice(-4)) : '****************';
+            el.text(masked);
+            el.data('masked', true);
+            }
+        });
 
-      // copy button
-      $('#copy-button').on('click', async function(e) {
-        e.preventDefault();
-        if(!tokenValue) return alert('No token to copy');
-        try {
-          await navigator.clipboard.writeText(tokenValue);
-          const el = $('#key-text');
-          const prev = el.text();
-          el.text(CopyWarning);
-          setTimeout(() => el.text(prev), 1400);
-        } catch(err) {
-          alert('Failed to copy: ' + err);
-        }
-      });
+        $('#copy-button').on('click', async function(e) {
+            e.preventDefault();
+            if(!tokenValue) return alert('No token to copy');
+            try {
+            await navigator.clipboard.writeText(tokenValue);
+            const el = $('#key-text');
+            const prev = el.text();
+            el.text(CopyWarning);
+            setTimeout(() => el.text(prev), 1400);
+            } catch(err) {
+            alert('Failed to copy: ' + err);
+            }
+        });
     });
 
-    // tsParticles background effect
     tsParticles.load('tsparticles', {
       emitters: {
         direction: 'top',
