@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>PlangHub | Get Key</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Prompt:wght@100;200;300;400;500;600;700;800;900&display=swap" rel="stylesheet" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        fontFamily: { sans: ['Prompt', 'sans-serif'] },
+      },
+    }
+  </script>
+  <style type="text/tailwindcss">
+    @layer components { ::-webkit-scrollbar { display: none; } }
+    @layer utilities {
+      @keyframes heartbeat { 0%{transform:scale(1)} 50%{transform:scale(1.05)} 100%{transform:scale(1)} }
+    }
+  </style>
+</head>
+<body class="bg-[url('https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQtGI8ZVr1OjuVLZADctDgIxNPrJTXItsdkIw&s')] bg-no-repeat bg-cover bg-center bg-fixed text-violet-50">
+  <section class="w-full h-screen backdrop-blur-sm bg-black/30">
+    <div class="flex flex-col h-screen justify-center items-center p-5">
+      <div class="bg-violet-900/70 rounded-lg w-[95%] sm:w-[500px] max-h-[95%] p-5 shadow-lg shadow-violet-900/50 border-2 border-violet-900 overflow-y-auto">
+        <h1 id="title" class="inline text-[#a89ac4]"></h1>
+
+        <div id="key-area" class="hidden mt-4">
+          <div class="grid grid-cols-2 gap-2 mt-3">
+            <button id="display-button" type="button" class="col-span-2 text-left text-lg w-full p-3 rounded-md bg-violet-500 select-none active:scale-95 transition-transform">
+              PlangHub Key:
+              <p id="key-text" class="text-xs break-all">******************</p>
+            </button>
+
+            <a class="text-center text-lg w-full p-1.5 rounded-md bg-[#5662f6] select-none active:scale-95 transition-transform block" href="https://discord.gg/zxNwa2bTRa" target="_blank" rel="noreferrer">Discord</a>
+
+            <button id="copy-button" type="button" class="text-center text-lg w-full p-1.5 rounded-md bg-[#2374e1] select-none active:scale-95 transition-transform">
+              Copy Key
+            </button>
+          </div>
+        </div>
+
+        <p id="info" class="mt-3 text-xs text-gray-300">If you were redirected here from work.ink, the token will be read automatically.</p>
+      </div>
+    </div>
+  </section>
+
+  <script src="https://cdn.jsdelivr.net/npm/jquery@3.6.1"></script>
+  <script src="https://cdn.jsdelivr.net/npm/typed.js@2.0.12"></script>
+  <script src="https://cdn.jsdelivr.net/npm/tsparticles@2.5.3/tsparticles.bundle.min.js"></script>
+
+  <script>
+    const CopyWarning = "Copy Done!";
+
+    // อ่าน token จาก URL query ?token=...
+    const params = new URLSearchParams(window.location.search);
+    const tokenValue = params.get('token'); // เช่น "111"
+
+    // แสดง token UI
+    function showKeyUI(token) {
+      if(!token) return;
+      $('#key-text').text(token);
+      $('#key-area').show();
+
+      // ลบ token จาก URL bar
+      try {
+        const safePath = window.location.pathname.split('/').slice(0,3).join('/') || '/';
+        history.replaceState(null, '', safePath);
+      } catch(e) {}
+    }
+
+    // typed title
+    new Typed('#title', {
+      strings: ['Welcome To <h2 class="inline text-xl text-white">Plang Hub</h2>,<br/>Happy Hacking~~'],
+      typeSpeed: 25,
+      startDelay: 300,
+      loop: false,
+      onComplete(self) { self.cursor.remove(); }
+    });
+
+    $(function() {
+      if(tokenValue) showKeyUI(tokenValue);
+      else $('#info').text('No token detected in URL.');
+
+      // toggle masked / full
+      $('#display-button').on('click', function(e) {
+        e.preventDefault();
+        const el = $('#key-text');
+        if(el.data('masked')) {
+          el.text(tokenValue);
+          el.data('masked', false);
+        } else {
+          const masked = tokenValue ? (tokenValue.slice(0,4) + '...' + tokenValue.slice(-4)) : '****************';
+          el.text(masked);
+          el.data('masked', true);
+        }
+      });
+
+      // copy button
+      $('#copy-button').on('click', async function(e) {
+        e.preventDefault();
+        if(!tokenValue) return alert('No token to copy');
+        try {
+          await navigator.clipboard.writeText(tokenValue);
+          const el = $('#key-text');
+          const prev = el.text();
+          el.text(CopyWarning);
+          setTimeout(() => el.text(prev), 1400);
+        } catch(err) {
+          alert('Failed to copy: ' + err);
+        }
+      });
+    });
+
+    // tsParticles background effect
+    tsParticles.load('tsparticles', {
+      emitters: {
+        direction: 'top',
+        size: { width: 100, height: 0 },
+        position: { x: 50, y: 100 },
+        rate: { delay: 0.2, quantity: 1 },
+      },
+      particles: {
+        number: { value: 0, density: { enable: true, value_area: 800 } },
+        color: { value: '#ffffff' },
+        opacity: { value: 1, anim: { enable: true, speed: 3, opacity_min: 0.1, sync: false } },
+        size: { value: 1 },
+        move: { enable: true, speed: 5, direction: 'none', random: false, straight: false, out_mode: 'destroy' },
+      },
+    });
+  </script>
+</body>
+</html>
