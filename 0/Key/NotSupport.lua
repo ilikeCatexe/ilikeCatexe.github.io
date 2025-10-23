@@ -28,6 +28,7 @@ _G.PHmapid = {
     9733390246, -- 27
     17602539741, -- 28
     87188889493383, -- 29
+    99122501338948, -- 30
 }
 
 _G.PHmapname = {
@@ -60,6 +61,7 @@ _G.PHmapname = {
     "Stair Tappers", -- 27
     "Planet Forge", -- 28
     "Blox Loot", -- 29
+    "Tower Of Zombie", -- 30
 }
 _G.PHmapstats = {
     "not update", -- 1
@@ -90,5 +92,6 @@ _G.PHmapstats = {
     "not update", -- 26
     "not work", -- 27
     "not update", -- 28
-    "work", -- 29
+    "not work", -- 29
+    "work", -- 30
 }
