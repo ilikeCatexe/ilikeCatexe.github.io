@@ -29,6 +29,7 @@ _G.PHmapid = {
     17602539741, -- 28
     87188889493383, -- 29
     99122501338948, -- 30
+    99701434175669, -- 31
 }
 
 _G.PHmapname = {
@@ -62,6 +63,7 @@ _G.PHmapname = {
     "Planet Forge", -- 28
     "Blox Loot", -- 29
     "Tower Of Zombie", -- 30
+    "My Car Workshop", -- 31
 }
 _G.PHmapstats = {
     "not update", -- 1
@@ -94,4 +96,5 @@ _G.PHmapstats = {
     "not update", -- 28
     "not work", -- 29
     "work", -- 30
+    "work", -- 31
 }
