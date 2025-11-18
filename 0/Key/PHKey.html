@@ -75,10 +75,7 @@
     const CopyWarning = "Copy Done!";
 
     const params = new URLSearchParams(window.location.search);
-    const tokenValue = (() => {
-        const t = params.get('token');
-        return t ? (t.endsWith('PH') ? t : t + 'PH') : null;
-    })();
+    const tokenValue = params.get('token');
 
     function showKeyUI(token) {
         if(!token) return;
