@@ -98,3 +98,6 @@ _G.PHmapstats = {
     "work", -- 30
     "work", -- 31
 }
+
+_G.MyBelovedCharacter = "Flandre and Hitori"
+_G.Version = "4.1.0"
