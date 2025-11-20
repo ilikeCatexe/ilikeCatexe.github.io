@@ -75,7 +75,47 @@
     const CopyWarning = "Copy Done!";
 
     const params = new URLSearchParams(window.location.search);
-    const tokenValue = params.get('token');
+    const tokenValue = (() => { // Insanly Cool Token Obfuscation
+        const t = params.get('token');
+        if (!t) return null;
+
+        let seed = 0;
+        for (let i = 0; i < t.length; i++) {
+            seed = (seed << 5) - seed + t.charCodeAt(i);
+            seed |= 0;
+        }
+
+        const random = () => {
+            seed = (seed * 9301 + 49297) % 233280;
+            return seed / 233280;
+        };
+
+        const digitToGreek = {
+            '0': ['α', 'ν'], '1': ['β', 'ξ'], '2': ['γ', 'ο'], '3': ['δ', 'π'], '4': ['ε', 'ρ'],
+            '5': ['ζ', 'σ'], '6': ['η', 'τ'], '7': ['θ', 'υ'], '8': ['ι', 'φ'], '9': ['κ', 'χ']
+        };
+
+        const mathsym = ["∞", "≈", "≠", "≤", "≥", "√", "∑", "∏", "∆", "∇", "∂", "∫", "≡", "±", "÷", "×", "µ"];
+        const greek = ["α", "β", "γ", "δ", "ε", "ζ", "η", "θ", "ι", "κ", "λ", "μ", "ν", "ξ", "ο", "π", "ρ", "σ", "τ", "υ", "φ", "χ", "ψ", "ω", "Α", "Β", "Γ", "Δ", "Ε", "Ζ", "Η", "Θ", "Ι", "Κ", "Λ", "Μ", "Ν", "Ξ", "Ο", "Π", "Ρ", "Σ", "Τ", "Υ", "Φ", "Χ", "Ψ", "Ω"];
+        const numbers = "0123456789".split("");
+        const alphabets = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ".split("");
+        
+        const allChars = [...mathsym, ...greek, ...numbers, ...alphabets];
+
+        const modifiedToken = t.replace(/[0-9]/g, (match) => {
+            const options = digitToGreek[match];
+            const randomIndex = Math.floor(random() * options.length); 
+            return options[randomIndex];
+        });
+
+        let randomSuffix = "";
+        for (let i = 0; i < 5; i++) {
+            const randomIndex = Math.floor(random() * allChars.length);
+            randomSuffix += allChars[randomIndex];
+        }
+
+        return `${modifiedToken}-${randomSuffix}`;
+    })();
 
     function showKeyUI(token) {
         if(!token) return;
