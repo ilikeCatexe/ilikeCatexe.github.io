@@ -56,13 +56,12 @@
 </section>
 
 <script>
-    // Randomly select background images
     const bgImages = [
-    'https://practicaltyping.com/wp-content/uploads/2023/03/bocchi-1.png',
-    'https://cdn.discordapp.com/attachments/1178381908963496027/1430617706402676736/BocchiBG8K.png?ex=68fa6e10&is=68f91c90&hm=e2d9c487835ccb5d876ac135fadcd7e471e44a64221c0d7446efac3c1743d7f3',
-    'https://cdn.discordapp.com/attachments/1178381908963496027/1430620673159598090/103922307_p0_master1200.jpg?ex=68fa70d4&is=68f91f54&hm=0ec9ceccae05b47801fb445af432340055b4273c75e3d32e3fe866adadd3a86e&',
-    'https://cdn.discordapp.com/attachments/1178381908963496027/1430621452939558973/post-your-favourite-fanart-of-bocchi-the-rock-mine-is-this-v0-d0m0otocki1b12.jpg?ex=68fa718e&is=68f9200e&hm=a5398a7c247a14f4cf837e6f243d0de8c76717d9dbeef086315c9a50ee6f585e',
-    'https://cdn.discordapp.com/attachments/1178381908963496027/1430620674363490396/post-your-favourite-fanart-of-bocchi-the-rock-mine-is-this-v0-tjmqfuaxdg1b1.jpg?ex=68fa70d4&is=68f91f54&hm=72dfe183a6264c88511c39a004049cd565ac756ff241228c3a9835701eb98cc3&'
+        'https://practicaltyping.com/wp-content/uploads/2023/03/bocchi-1.png',
+        'https://cdn.discordapp.com/attachments/1178381908963496027/1430617706402676736/BocchiBG8K.png?ex=68fa6e10&is=68f91c90&hm=e2d9c487835ccb5d876ac135fadcd7e471e44a64221c0d7446efac3c1743d7f3',
+        'https://cdn.discordapp.com/attachments/1178381908963496027/1430620673159598090/103922307_p0_master1200.jpg?ex=68fa70d4&is=68f91f54&hm=0ec9ceccae05b47801fb445af432340055b4273c75e3d32e3fe866adadd3a86e&',
+        'https://cdn.discordapp.com/attachments/1178381908963496027/1430621452939558973/post-your-favourite-fanart-of-bocchi-the-rock-mine-is-this-v0-d0m0otocki1b12.jpg?ex=68fa718e&is=68f9200e&hm=a5398a7c247a14f4cf837e6f243d0de8c76717d9dbeef086315c9a50ee6f585e',
+        'https://cdn.discordapp.com/attachments/1178381908963496027/1430620674363490396/post-your-favourite-fanart-of-bocchi-the-rock-mine-is-this-v0-tjmqfuaxdg1b1.jpg?ex=68fa70d4&is=68f91f54&hm=72dfe183a6264c88511c39a004049cd565ac756ff241228c3a9835701eb98cc3&'
     ];
     const chosenBg = bgImages[Math.floor(Math.random() * bgImages.length)];
     document.body.style.backgroundImage = `url('${chosenBg}')`;
@@ -84,6 +83,8 @@
             seed = (seed << 5) - seed + t.charCodeAt(i);
             seed |= 0;
         }
+        
+        seed = Math.abs(seed); 
 
         const random = () => {
             seed = (seed * 9301 + 49297) % 233280;
@@ -105,17 +106,19 @@
         const modifiedToken = t.replace(/[0-9]/g, (match) => {
             const options = digitToGreek[match];
             const randomIndex = Math.floor(random() * options.length); 
-            return options[randomIndex];
+            return options[randomIndex] || match; 
         });
 
         let randomSuffix = "";
         for (let i = 0; i < 5; i++) {
             const randomIndex = Math.floor(random() * allChars.length);
-            randomSuffix += allChars[randomIndex];
+            const char = allChars[randomIndex];
+            randomSuffix += (char !== undefined ? char : allChars[Math.floor(Math.random() * allChars.length)]);
         }
 
         return `${modifiedToken}-${randomSuffix}`;
     })();
+
 
     function showKeyUI(token) {
         if(!token) return;
